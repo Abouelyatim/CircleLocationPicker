@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                     .setSliderTrackInactiveTintColor(R.color.dark)
                     .setConfirmButtonBackgroundShape(R.drawable.round_corner_bleu)
                     .setConfirmButtonTextColor(R.color.white)
+                    .setBottomViewColor(R.color.white)
                     .setConfirmButtonText("Confirm")
                     .setInitialCircleRadiusKilometer(10.0)
                     .setSliderValueFrom(1.0F)

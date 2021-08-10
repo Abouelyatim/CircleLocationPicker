@@ -14,32 +14,25 @@ class LocationPicker {
 
     private lateinit var activity: Activity
     private var latitude: Double = Constants.DEFAULT_LATITUDE
-    private var longitude: Double =
-      Constants.DEFAULT_LONGITUDE
+    private var longitude: Double = Constants.DEFAULT_LONGITUDE
     private var markerImageColorRes: Int = -1
     private var circleBackgroundColorRes: Int = -1
     private var fabBackgroundColorRes: Int = -1
     private var primaryTextColorRes: Int = -1
     private var bottomViewColorRes:  Int = -1
     private var mapRawResourceStyleRes: Int = -1
-
     private var confirmButtonBackgroundRes: Int = -1
     private var confirmButtonTextColorRes: Int = -1
     private var confirmButtonTextRes: String = Constants.DEFAULT_CONFIRM_TEXT
-
-    private var mapType: MapType =
-      MapType.NORMAL
+    private var mapType: MapType = MapType.NORMAL
     private var googleApiKey: String? = null
     private var hideLocation:Boolean =false
     private var sliderThumbTintColorRes: Int = -1
     private var sliderTrackInactiveTintColorRes: Int = -1
     private var sliderTrackActiveTintColorRes: Int = -1
-    private var circleRadiusKilometer:Double=
-      Constants.DEFAULT_CIRCLE_RADIUS_INTENT
-    private var sliderValueFrom:Float=
-      Constants.DEFAULT_SLIDER_VALUE_FROM_INTENT
-    private var sliderValueTo:Float=
-      Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
+    private var circleRadiusKilometer:Double= Constants.DEFAULT_CIRCLE_RADIUS_INTENT
+    private var sliderValueFrom:Float= Constants.DEFAULT_SLIDER_VALUE_FROM_INTENT
+    private var sliderValueTo:Float= Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
 
     fun setConfirmButtonBackgroundShape(@DrawableRes confirmButtonBackgroundRes: Int) = apply { this.confirmButtonBackgroundRes = confirmButtonBackgroundRes }
 
@@ -112,7 +105,6 @@ class LocationPicker {
       intent.putExtra(Constants.INITIAL_SLIDER_VALUE_FROM_INTENT, sliderValueFrom)
       intent.putExtra(Constants.INITIAL_SLIDER_VALUE_TO_INTENT, sliderValueTo)
       intent.putExtra(Constants.INITIAL_CIRCLE_RADIUS_INTENT, circleRadiusKilometer)
-
       intent.putExtra(Constants.CONFIRM_BUTTON_BACKGROUND_RES_INTENT, confirmButtonBackgroundRes)
       intent.putExtra(Constants.CONFIRM_BUTTON_TEXT_COLOR_RES_INTENT, confirmButtonTextColorRes)
       intent.putExtra(Constants.CONFIRM_BUTTON_TEXT_RES_INTENT, confirmButtonTextRes)

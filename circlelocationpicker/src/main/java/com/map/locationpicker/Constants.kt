@@ -13,7 +13,6 @@ object Constants {
   const val DEFAULT_LATITUDE = 40.748672
   const val DEFAULT_LONGITUDE = -73.985628
   const val DEFAULT_CONFIRM_TEXT = "Confirm"
-  const val DEFAULT_ZOOM = 14.0F
   const val PLACE_PICKER_REQUEST = 100
   const val DEFAULT_SLIDER_VALUE_FROM_INTENT = 1.0F
   const val DEFAULT_SLIDER_VALUE_TO_INTENT = 200.0F

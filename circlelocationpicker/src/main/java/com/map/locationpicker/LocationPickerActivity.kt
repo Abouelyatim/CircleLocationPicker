@@ -3,6 +3,9 @@ package com.map.locationpicker
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.location.Address
+import android.location.Geocoder
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -19,6 +22,7 @@ import com.google.android.material.slider.Slider
 import com.google.maps.android.SphericalUtil
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.*
 import kotlin.math.ln
 
 class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -39,8 +43,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
   private var latitude = Constants.DEFAULT_LATITUDE
   private var longitude = Constants.DEFAULT_LONGITUDE
-  private var circleRadiusKilometer:Double=
-      Constants.DEFAULT_CIRCLE_RADIUS_INTENT
+  private var circleRadiusKilometer:Double= Constants.DEFAULT_CIRCLE_RADIUS_INTENT
   private var initLatitude = Constants.DEFAULT_LATITUDE
   private var initLongitude = Constants.DEFAULT_LONGITUDE
   private var markerColorRes: Int = -1
@@ -49,22 +52,18 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private var primaryTextColorRes: Int = -1
   private var bottomViewColorRes: Int = -1
   private var mapRawResourceStyleRes: Int = -1
-  private var mapType: MapType =
-      MapType.NORMAL
+  private var mapType: MapType = MapType.NORMAL
   private var hideLocationButton: Boolean = false
   private var sliderThumbTintColorRes: Int = -1
   private var sliderTrackInactiveTintColorRes: Int = -1
   private var sliderTrackActiveTintColorRes: Int = -1
-  private var initCircleRadiusKilometer:Double=
-      Constants.DEFAULT_CIRCLE_RADIUS_INTENT
-  private var sliderValueFrom:Float=
-      Constants.DEFAULT_SLIDER_VALUE_FROM_INTENT
-  private var sliderValueTo:Float=
-      Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
-
+  private var initCircleRadiusKilometer:Double= Constants.DEFAULT_CIRCLE_RADIUS_INTENT
+  private var sliderValueFrom:Float= Constants.DEFAULT_SLIDER_VALUE_FROM_INTENT
+  private var sliderValueTo:Float= Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
   private var confirmButtonBackgroundRes: Int = -1
   private var confirmButtonTextColorRes: Int = -1
   private var confirmButtonTextRes: String = Constants.DEFAULT_CONFIRM_TEXT
+  private var addresses: List<Address>? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -78,13 +77,16 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     bindViews()
 
     placeSelectedButton.setOnClickListener {
-      val circleData= CircleData(
-          latitude,
-          longitude,
-          circleRadiusKilometer
-      )
       val returnIntent = Intent()
+
+      val circleData= CircleData(
+        latitude,
+        longitude,
+        circleRadiusKilometer,
+        addresses
+      )
       returnIntent.putExtra(Constants.CIRCLE_INTENT, circleData)
+
       setResult(RESULT_OK, returnIntent)
       finish()
     }
@@ -288,6 +290,9 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
       val latLng = map.cameraPosition.target
       latitude = latLng.latitude
       longitude = latLng.longitude
+      AsyncTask.execute {
+        getAddressForLocation()
+      }
     }
 
     if (mapRawResourceStyleRes != -1) {
@@ -310,5 +315,23 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     val scale = radius / 500
     zoomLevel = (16 - ln(scale) / ln(2.0))
     return zoomLevel
+  }
+
+  private fun getAddressForLocation() {
+    setAddress(latitude, longitude)
+  }
+
+  private fun setAddress(
+    latitude: Double,
+    longitude: Double
+  ) {
+    val geoCoder = Geocoder(this, Locale.getDefault())
+    try {
+      val addresses = geoCoder.getFromLocation(latitude, longitude, 1)
+      this.addresses = addresses
+    } catch (e: Exception) {
+      //Time Out in getting address
+      addresses = null
+    }
   }
 }
