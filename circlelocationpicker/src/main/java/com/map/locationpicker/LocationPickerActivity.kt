@@ -47,6 +47,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private var initLongitude = Constants.DEFAULT_LONGITUDE
   private var zoom = Constants.DEFAULT_ZOOM
   private var markerColorRes: Int = -1
+  private var circleColorRes: Int = -1
   private var fabColorRes: Int = -1
   private var primaryTextColorRes: Int = -1
   private var bottomViewColorRes: Int = -1
@@ -126,6 +127,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     )
     markerColorRes = intent.getIntExtra(Constants.MARKER_COLOR_RES_INTENT, -1)
     fabColorRes = intent.getIntExtra(Constants.FAB_COLOR_RES_INTENT, -1)
+    circleColorRes = intent.getIntExtra(Constants.CIRCLE_COLOR_RES_INTENT,-1)
     primaryTextColorRes = intent.getIntExtra(Constants.PRIMARY_TEXT_COLOR_RES_INTENT, -1)
     bottomViewColorRes = intent.getIntExtra(Constants.BOTTOM_VIEW_COLOR_RES_INTENT, -1)
     mapRawResourceStyleRes = intent.getIntExtra(Constants.MAP_RAW_STYLE_RES_INTENT, -1)
@@ -201,19 +203,25 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   private fun setIntentCircleCustomization(googleMap: GoogleMap):Circle {
+    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), getZoomLevel(initCircleRadiusKilometer*1000).toFloat()))
     val circleOptions: CircleOptions = CircleOptions()
       .center(googleMap.cameraPosition.target) //set center
       .radius(initCircleRadiusKilometer*1000) //set radius in meters
-      .fillColor(Color.TRANSPARENT) //default
-      .strokeColor(ContextCompat.getColor(this, markerColorRes))
       .strokeWidth(7.0f)
+
+    if (circleColorRes != -1) {
+      circleOptions.fillColor(ContextCompat.getColor(this, circleColorRes))
+    }
+    if(markerColorRes != -1){
+      circleOptions.strokeColor(ContextCompat.getColor(this, markerColorRes))
+    }
     return googleMap.addCircle(circleOptions)
   }
 
   @SuppressLint("SetTextI18n")
   private fun setSliderValueTextView(value:Float){
     roundFloatValue(value,2)
-    sliderValueTextView.text="${roundFloatValue(value,2)} KM"
+    sliderValueTextView.text="${roundFloatValue(value,2)} km"
   }
 
   private fun roundFloatValue(value:Float,scale:Int):Double{
@@ -259,8 +267,6 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
       longitude = latLng.longitude
     }
 
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), getZoomLevel(circle).toFloat()))
-
     if (mapRawResourceStyleRes != -1) {
       map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, mapRawResourceStyleRes))
     }
@@ -275,13 +281,11 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     }
   }
 
-  private fun getZoomLevel(circle: Circle?): Double {
+  private fun getZoomLevel(circleRadius:Double): Double {
     var zoomLevel = zoom.toDouble()
-    if (circle != null) {
-      val radius = circle.radius + circle.radius / 2
-      val scale = radius / 500
-      zoomLevel = (16 - ln(scale) / ln(2.0))
-    }
+    val radius = circleRadius + circleRadius / 2
+    val scale = radius / 500
+    zoomLevel = (16 - ln(scale) / ln(2.0))
     return zoomLevel
   }
 }

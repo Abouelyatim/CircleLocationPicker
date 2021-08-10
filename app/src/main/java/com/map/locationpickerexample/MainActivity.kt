@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                     .setMarkerImageImageColor(R.color.bleu)
                     .setFabColor(R.color.bleu)
                     .setPrimaryTextColor(R.color.black)
+                    .setCircleBackgroundColorRes(R.color.bleu_light)
                     .setSliderThumbTintColor(R.color.bleu)
                     .setSliderTrackActiveTintColor(R.color.bleu)
                     .setSliderTrackInactiveTintColor(R.color.dark)

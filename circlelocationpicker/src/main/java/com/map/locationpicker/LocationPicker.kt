@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.annotation.ColorRes
 import androidx.annotation.RawRes
+import com.map.locationpicker.Constants.CIRCLE_COLOR_RES_INTENT
 
 class LocationPicker {
 
@@ -15,6 +16,7 @@ class LocationPicker {
       Constants.DEFAULT_LONGITUDE
     private var zoom: Float = Constants.DEFAULT_ZOOM
     private var markerImageColorRes: Int = -1
+    private var circleBackgroundColorRes: Int = -1
     private var fabBackgroundColorRes: Int = -1
     private var primaryTextColorRes: Int = -1
     private var bottomViewColorRes:  Int = -1
@@ -72,6 +74,8 @@ class LocationPicker {
 
     fun setPrimaryTextColor(@ColorRes primaryTextColor: Int) = apply { this.primaryTextColorRes = primaryTextColor }
 
+    fun setCircleBackgroundColorRes(@ColorRes circleBackgroundColorRes:Int) = apply { this.circleBackgroundColorRes = circleBackgroundColorRes }
+
     fun setBottomViewColor(@ColorRes bottomViewColor: Int) = apply { this.bottomViewColorRes = bottomViewColor }
 
     fun setMapRawResourceStyle(@RawRes mapRawResourceStyleRes: Int) = apply { this.mapRawResourceStyleRes = mapRawResourceStyleRes }
@@ -85,6 +89,7 @@ class LocationPicker {
       intent.putExtra(Constants.INITIAL_LONGITUDE_INTENT, longitude)
       intent.putExtra(Constants.INITIAL_ZOOM_INTENT, zoom)
       intent.putExtra(Constants.MARKER_COLOR_RES_INTENT, markerImageColorRes)
+      intent.putExtra(CIRCLE_COLOR_RES_INTENT,circleBackgroundColorRes)
       intent.putExtra(Constants.FAB_COLOR_RES_INTENT, fabBackgroundColorRes)
       intent.putExtra(Constants.PRIMARY_TEXT_COLOR_RES_INTENT, primaryTextColorRes)
       intent.putExtra(Constants.BOTTOM_VIEW_COLOR_RES_INTENT, bottomViewColorRes)
