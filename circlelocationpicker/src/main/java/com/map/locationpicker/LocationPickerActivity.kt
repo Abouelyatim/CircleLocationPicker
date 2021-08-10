@@ -3,12 +3,10 @@ package com.map.locationpicker
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,11 +31,11 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private var googleApiKey: String? = null
 
   private lateinit var markerImage: ImageView
-  private lateinit var placeSelectedFab: FloatingActionButton
+  private lateinit var placeSelectedButton: Button
   private lateinit var myLocationFab: FloatingActionButton
   private lateinit var distanceSlider: Slider
   private lateinit var sliderValueTextView: TextView
-  private lateinit var infoLayout: FrameLayout
+  private lateinit var infoLayout: LinearLayout
 
   private var latitude = Constants.DEFAULT_LATITUDE
   private var longitude = Constants.DEFAULT_LONGITUDE
@@ -64,6 +62,10 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private var sliderValueTo:Float=
       Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
 
+  private var confirmButtonBackgroundRes: Int = -1
+  private var confirmButtonTextColorRes: Int = -1
+  private var confirmButtonTextRes: String = Constants.DEFAULT_CONFIRM_TEXT
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_place_picker)
@@ -75,7 +77,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     mapFragment.getMapAsync(this)
     bindViews()
 
-    placeSelectedFab.setOnClickListener {
+    placeSelectedButton.setOnClickListener {
       val circleData= CircleData(
           latitude,
           longitude,
@@ -106,7 +108,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
   private fun bindViews() {
     markerImage = findViewById(R.id.marker_center_circle_image_view)
-    placeSelectedFab = findViewById(R.id.location_chosen_button)
+    placeSelectedButton = findViewById(R.id.location_chosen_button)
     myLocationFab = findViewById(R.id.initial_location_button)
     sliderValueTextView = findViewById(R.id.text_view_slider_value)
     distanceSlider = findViewById(R.id.slider_distance_picker)
@@ -150,6 +152,10 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
         Constants.INITIAL_SLIDER_VALUE_TO_INTENT,
         Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
     )
+
+    confirmButtonBackgroundRes = intent.getIntExtra(Constants.CONFIRM_BUTTON_BACKGROUND_RES_INTENT,-1)
+    confirmButtonTextColorRes = intent.getIntExtra(Constants.CONFIRM_BUTTON_TEXT_COLOR_RES_INTENT,-1)
+    confirmButtonTextRes = intent.getStringExtra(Constants.CONFIRM_BUTTON_TEXT_RES_INTENT)
   }
 
   private fun setIntentCustomization() {
@@ -159,11 +165,28 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
       intArrayOf(-android.R.attr.state_checked),
       intArrayOf(android.R.attr.state_pressed)
     )
+    if(confirmButtonBackgroundRes != -1){
+      placeSelectedButton.setBackgroundResource(confirmButtonBackgroundRes)
+    }
+    if(confirmButtonTextColorRes != -1){
+      val colors = intArrayOf(
+        ContextCompat.getColor(this, confirmButtonTextColorRes),
+        ContextCompat.getColor(this, confirmButtonTextColorRes),
+        ContextCompat.getColor(this, confirmButtonTextColorRes),
+        ContextCompat.getColor(this, confirmButtonTextColorRes)
+      )
+      placeSelectedButton.setTextColor(ColorStateList(states,colors))
+    }
+    if(confirmButtonTextRes.isNotEmpty()){
+      placeSelectedButton.text = confirmButtonTextRes
+    }
     if (markerColorRes != -1) {
       markerImage.setColorFilter(ContextCompat.getColor(this, markerColorRes))
     }
     if (fabColorRes != -1) {
-      placeSelectedFab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, fabColorRes))
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        placeSelectedButton.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(this, fabColorRes))
+      }
       myLocationFab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, fabColorRes))
     }
     if (primaryTextColorRes != -1) {

@@ -3,7 +3,9 @@ package com.map.locationpicker
 import android.app.Activity
 import android.content.Intent
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
+import androidx.annotation.StringRes
 import com.map.locationpicker.Constants.CIRCLE_COLOR_RES_INTENT
 
 class LocationPicker {
@@ -20,6 +22,11 @@ class LocationPicker {
     private var primaryTextColorRes: Int = -1
     private var bottomViewColorRes:  Int = -1
     private var mapRawResourceStyleRes: Int = -1
+
+    private var confirmButtonBackgroundRes: Int = -1
+    private var confirmButtonTextColorRes: Int = -1
+    private var confirmButtonTextRes: String = Constants.DEFAULT_CONFIRM_TEXT
+
     private var mapType: MapType =
       MapType.NORMAL
     private var googleApiKey: String? = null
@@ -33,6 +40,12 @@ class LocationPicker {
       Constants.DEFAULT_SLIDER_VALUE_FROM_INTENT
     private var sliderValueTo:Float=
       Constants.DEFAULT_SLIDER_VALUE_TO_INTENT
+
+    fun setConfirmButtonBackgroundShape(@DrawableRes confirmButtonBackgroundRes: Int) = apply { this.confirmButtonBackgroundRes = confirmButtonBackgroundRes }
+
+    fun setConfirmButtonTextColor(@ColorRes confirmButtonTextColorRes: Int) = apply { this.confirmButtonTextColorRes = confirmButtonTextColorRes }
+
+    fun setConfirmButtonText(confirmButtonTextRes: String) = apply { this.confirmButtonTextRes = confirmButtonTextRes }
 
     fun hideLocationButton(hideLocation: Boolean) = apply { this.hideLocation = hideLocation }
 
@@ -99,6 +112,10 @@ class LocationPicker {
       intent.putExtra(Constants.INITIAL_SLIDER_VALUE_FROM_INTENT, sliderValueFrom)
       intent.putExtra(Constants.INITIAL_SLIDER_VALUE_TO_INTENT, sliderValueTo)
       intent.putExtra(Constants.INITIAL_CIRCLE_RADIUS_INTENT, circleRadiusKilometer)
+
+      intent.putExtra(Constants.CONFIRM_BUTTON_BACKGROUND_RES_INTENT, confirmButtonBackgroundRes)
+      intent.putExtra(Constants.CONFIRM_BUTTON_TEXT_COLOR_RES_INTENT, confirmButtonTextColorRes)
+      intent.putExtra(Constants.CONFIRM_BUTTON_TEXT_RES_INTENT, confirmButtonTextRes)
       return intent
     }
   }

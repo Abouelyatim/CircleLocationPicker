@@ -45,35 +45,21 @@
       app:backgroundTint="@color/colorPrimary"
       app:elevation="3dp"
       app:fabSize="mini"
-      app:layout_constraintBottom_toTopOf="@+id/location_chosen_button"
+      app:layout_constraintBottom_toTopOf="@+id/information_layout"
       app:layout_constraintEnd_toEndOf="parent"
       app:srcCompat="@drawable/ic_my_location"
       app:tint="@color/white"
       />
 
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/location_chosen_button"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="18dp"
-      android:layout_marginEnd="18dp"
-      android:layout_marginRight="18dp"
-      android:scaleType="center"
-      app:backgroundTint="@color/colorPrimary"
-      app:elevation="3dp"
-      app:fabSize="normal"
-      app:layout_constraintBottom_toTopOf="@+id/information_layout"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:srcCompat="@drawable/ic_check"
-      app:tint="@color/white"
-      />
 
-  <FrameLayout
+
+  <LinearLayout
       android:id="@+id/information_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/white"
       app:layout_constraintBottom_toBottomOf="parent"
+      android:orientation="vertical"
       >
 
     <LinearLayout
@@ -113,9 +99,19 @@
           android:layout_marginStart="16dp"
           android:layout_marginEnd="0dp" />
 
-
     </LinearLayout>
 
-  </FrameLayout>
+      <Button
+          android:id="@+id/location_chosen_button"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:layout_marginEnd="16dp"
+          android:layout_marginStart="16dp"
+          android:layout_marginBottom="16dp"
+          android:layout_marginTop="8dp"
+          android:textAllCaps="false"
+          android:textSize="18sp"/>
+
+  </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
