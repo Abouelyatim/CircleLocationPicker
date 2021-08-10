@@ -42,7 +42,7 @@ class LocationPicker {
 
     fun hideLocationButton(hideLocation: Boolean) = apply { this.hideLocation = hideLocation }
 
-    fun stopMapGesturesEnabled(stopMapGestures: Boolean) = apply { this.enableMapGestures = stopMapGestures }
+    fun enableMapGesturesEnabled(enableMapGestures: Boolean) = apply { this.enableMapGestures = enableMapGestures }
 
     fun setSliderThumbTintColor(@ColorRes sliderThumbTintColorRes: Int) = apply { this.sliderThumbTintColorRes = sliderThumbTintColorRes }
 
