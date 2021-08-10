@@ -8,7 +8,7 @@
     >
 
     <fragment
-      android:id="@+id/map"
+      android:id="@+id/map_fragment"
       android:name="com.google.android.gms.maps.SupportMapFragment"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -21,7 +21,7 @@
 
 
   <ImageView
-      android:id="@+id/marker_image_view"
+      android:id="@+id/marker_center_circle_image_view"
       android:layout_width="24dp"
       android:layout_height="24dp"
       android:adjustViewBounds="true"
@@ -35,7 +35,7 @@
 
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/my_location_button"
+      android:id="@+id/initial_location_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="10dp"
@@ -45,14 +45,14 @@
       app:backgroundTint="@color/colorPrimary"
       app:elevation="3dp"
       app:fabSize="mini"
-      app:layout_constraintBottom_toTopOf="@+id/place_chosen_button"
+      app:layout_constraintBottom_toTopOf="@+id/location_chosen_button"
       app:layout_constraintEnd_toEndOf="parent"
       app:srcCompat="@drawable/ic_my_location"
       app:tint="@color/white"
       />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/place_chosen_button"
+      android:id="@+id/location_chosen_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="18dp"
@@ -62,14 +62,14 @@
       app:backgroundTint="@color/colorPrimary"
       app:elevation="3dp"
       app:fabSize="normal"
-      app:layout_constraintBottom_toTopOf="@+id/info_layout"
+      app:layout_constraintBottom_toTopOf="@+id/information_layout"
       app:layout_constraintEnd_toEndOf="parent"
       app:srcCompat="@drawable/ic_check"
       app:tint="@color/white"
       />
 
   <FrameLayout
-      android:id="@+id/info_layout"
+      android:id="@+id/information_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/white"

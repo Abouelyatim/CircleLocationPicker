@@ -45,7 +45,6 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
       Constants.DEFAULT_CIRCLE_RADIUS_INTENT
   private var initLatitude = Constants.DEFAULT_LATITUDE
   private var initLongitude = Constants.DEFAULT_LONGITUDE
-  private var zoom = Constants.DEFAULT_ZOOM
   private var markerColorRes: Int = -1
   private var circleColorRes: Int = -1
   private var fabColorRes: Int = -1
@@ -72,7 +71,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     val mapFragment = supportFragmentManager
-        .findFragmentById(R.id.map) as SupportMapFragment
+        .findFragmentById(R.id.map_fragment) as SupportMapFragment
     mapFragment.getMapAsync(this)
     bindViews()
 
@@ -90,24 +89,28 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     myLocationFab.setOnClickListener {
       if(this::map.isInitialized) {
-        map.animateCamera(
-          CameraUpdateFactory.newLatLngZoom(
-            LatLng(initLatitude, initLongitude),
-            zoom
-          )
+
+        val targetNorthEast: LatLng =
+          SphericalUtil.computeOffset(LatLng(initLatitude, initLongitude), circleRadiusKilometer * 1000 * Math.sqrt(2.0), 45.0)
+        val targetSouthWest: LatLng =
+          SphericalUtil.computeOffset(LatLng(initLatitude, initLongitude), circleRadiusKilometer * 1000 * Math.sqrt(2.0), 225.0)
+        val australiaBounds = LatLngBounds(
+          targetSouthWest,  // SW bounds
+          targetNorthEast // NE bounds
         )
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(australiaBounds, 0))
       }
     }
     setIntentCustomization()
   }
 
   private fun bindViews() {
-    markerImage = findViewById(R.id.marker_image_view)
-    placeSelectedFab = findViewById(R.id.place_chosen_button)
-    myLocationFab = findViewById(R.id.my_location_button)
+    markerImage = findViewById(R.id.marker_center_circle_image_view)
+    placeSelectedFab = findViewById(R.id.location_chosen_button)
+    myLocationFab = findViewById(R.id.initial_location_button)
     sliderValueTextView = findViewById(R.id.text_view_slider_value)
     distanceSlider = findViewById(R.id.slider_distance_picker)
-    infoLayout = findViewById(R.id.info_layout)
+    infoLayout = findViewById(R.id.information_layout)
   }
 
   private fun getIntentData() {
@@ -121,10 +124,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     )
     initLatitude = latitude
     initLongitude = longitude
-    zoom = intent.getFloatExtra(
-        Constants.INITIAL_ZOOM_INTENT,
-        Constants.DEFAULT_ZOOM
-    )
+
     markerColorRes = intent.getIntExtra(Constants.MARKER_COLOR_RES_INTENT, -1)
     fabColorRes = intent.getIntExtra(Constants.FAB_COLOR_RES_INTENT, -1)
     circleColorRes = intent.getIntExtra(Constants.CIRCLE_COLOR_RES_INTENT,-1)
@@ -282,7 +282,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   private fun getZoomLevel(circleRadius:Double): Double {
-    var zoomLevel = zoom.toDouble()
+    var zoomLevel = 9.0
     val radius = circleRadius + circleRadius / 2
     val scale = radius / 500
     zoomLevel = (16 - ln(scale) / ln(2.0))

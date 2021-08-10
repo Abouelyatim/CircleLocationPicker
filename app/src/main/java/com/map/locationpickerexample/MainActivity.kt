@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
 
                 val intent = LocationPicker.IntentBuilder()
                     .setLatLong(latitude, longitude)
-                    .setDefaultMapZoom(9.0f)
                     .setMapRawResourceStyle(R.raw.map_style)
                     .setMapType(MapType.NORMAL)
                     .setPlaceSearchBar(applicationInfo.metaData.getString("com.google.android.geo.API_KEY"))

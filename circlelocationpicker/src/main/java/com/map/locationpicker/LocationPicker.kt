@@ -14,7 +14,6 @@ class LocationPicker {
     private var latitude: Double = Constants.DEFAULT_LATITUDE
     private var longitude: Double =
       Constants.DEFAULT_LONGITUDE
-    private var zoom: Float = Constants.DEFAULT_ZOOM
     private var markerImageColorRes: Int = -1
     private var circleBackgroundColorRes: Int = -1
     private var fabBackgroundColorRes: Int = -1
@@ -66,8 +65,6 @@ class LocationPicker {
       this.googleApiKey = googleApiKey
     }
 
-    fun setDefaultMapZoom(zoom: Float) = apply { this.zoom = zoom }
-
     fun setMarkerImageImageColor(@ColorRes markerImageColorRes: Int) = apply { this.markerImageColorRes = markerImageColorRes }
 
     fun setFabColor(@ColorRes fabBackgroundColor: Int) = apply { this.fabBackgroundColorRes = fabBackgroundColor }
@@ -87,7 +84,6 @@ class LocationPicker {
       val intent = Intent(activity, LocationPickerActivity::class.java)
       intent.putExtra(Constants.INITIAL_LATITUDE_INTENT, latitude)
       intent.putExtra(Constants.INITIAL_LONGITUDE_INTENT, longitude)
-      intent.putExtra(Constants.INITIAL_ZOOM_INTENT, zoom)
       intent.putExtra(Constants.MARKER_COLOR_RES_INTENT, markerImageColorRes)
       intent.putExtra(CIRCLE_COLOR_RES_INTENT,circleBackgroundColorRes)
       intent.putExtra(Constants.FAB_COLOR_RES_INTENT, fabBackgroundColorRes)
