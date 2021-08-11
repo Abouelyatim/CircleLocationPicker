@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
-import androidx.annotation.StringRes
 import com.map.locationpicker.Constants.CIRCLE_COLOR_RES_INTENT
 
 class LocationPicker {
@@ -27,6 +26,7 @@ class LocationPicker {
     private var mapType: MapType = MapType.NORMAL
     private var googleApiKey: String? = null
     private var hideLocation:Boolean =false
+    private var enableMapGestures:Boolean =true
     private var sliderThumbTintColorRes: Int = -1
     private var sliderTrackInactiveTintColorRes: Int = -1
     private var sliderTrackActiveTintColorRes: Int = -1
@@ -41,6 +41,8 @@ class LocationPicker {
     fun setConfirmButtonText(confirmButtonTextRes: String) = apply { this.confirmButtonTextRes = confirmButtonTextRes }
 
     fun hideLocationButton(hideLocation: Boolean) = apply { this.hideLocation = hideLocation }
+
+    fun stopMapGesturesEnabled(stopMapGestures: Boolean) = apply { this.enableMapGestures = stopMapGestures }
 
     fun setSliderThumbTintColor(@ColorRes sliderThumbTintColorRes: Int) = apply { this.sliderThumbTintColorRes = sliderThumbTintColorRes }
 
@@ -99,6 +101,7 @@ class LocationPicker {
       intent.putExtra(Constants.MAP_TYPE_INTENT, mapType)
       intent.putExtra(Constants.GOOGLE_API_KEY, googleApiKey)
       intent.putExtra(Constants.HIDE_LOCATION_BUTTON, hideLocation)
+      intent.putExtra(Constants.STOP_MAP_GESTURES, enableMapGestures)
       intent.putExtra(Constants.SLIDER_THUMB_COLOR_RES_INTENT, sliderThumbTintColorRes)
       intent.putExtra(Constants.SLIDER_TRACK_ACTIVE_COLOR_RES_INTENT, sliderTrackActiveTintColorRes)
       intent.putExtra(Constants.SLIDER_TRACK_INACTIVE_COLOR_RES_INTENT, sliderTrackInactiveTintColorRes)

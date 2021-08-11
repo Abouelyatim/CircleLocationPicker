@@ -19,7 +19,6 @@
       tools:context="com.map.locationpicker.LocationPickerActivity"
       />
 
-
   <ImageView
       android:id="@+id/marker_center_circle_image_view"
       android:layout_width="24dp"

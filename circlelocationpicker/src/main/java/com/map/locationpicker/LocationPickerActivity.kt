@@ -54,6 +54,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private var mapRawResourceStyleRes: Int = -1
   private var mapType: MapType = MapType.NORMAL
   private var hideLocationButton: Boolean = false
+  private var enableMapGestures: Boolean = true
   private var sliderThumbTintColorRes: Int = -1
   private var sliderTrackInactiveTintColorRes: Int = -1
   private var sliderTrackActiveTintColorRes: Int = -1
@@ -65,6 +66,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private var confirmButtonTextRes: String = Constants.DEFAULT_CONFIRM_TEXT
   private var addresses: List<Address>? = null
 
+  @SuppressLint("ClickableViewAccessibility")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_place_picker)
@@ -138,6 +140,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     mapType = intent.getSerializableExtra(Constants.MAP_TYPE_INTENT) as MapType
     googleApiKey = intent.getStringExtra(Constants.GOOGLE_API_KEY)
     hideLocationButton = intent.getBooleanExtra(Constants.HIDE_LOCATION_BUTTON, false)
+    enableMapGestures = intent.getBooleanExtra(Constants.STOP_MAP_GESTURES, false)
     sliderThumbTintColorRes = intent.getIntExtra(Constants.SLIDER_THUMB_COLOR_RES_INTENT,-1)
     sliderTrackInactiveTintColorRes = intent.getIntExtra(Constants.SLIDER_TRACK_INACTIVE_COLOR_RES_INTENT,-1)
     sliderTrackActiveTintColorRes = intent.getIntExtra(Constants.SLIDER_TRACK_ACTIVE_COLOR_RES_INTENT,-1)
@@ -307,6 +310,8 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
       MapType.NONE -> GoogleMap.MAP_TYPE_NONE
       else -> GoogleMap.MAP_TYPE_NORMAL
     }
+
+    map.uiSettings.setAllGesturesEnabled(enableMapGestures)
   }
 
   private fun getZoomLevel(circleRadius:Double): Double {

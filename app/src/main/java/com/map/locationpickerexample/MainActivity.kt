@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                     .setInitialCircleRadiusKilometer(10.0)
                     .setSliderValueFrom(1.0F)
                     .setSliderValueTo(200.0F)
+                        .stopMapGesturesEnabled(true)
                     .hideLocationButton(false)
                     .build(this)
                 startActivityForResult(intent, Constants.PLACE_PICKER_REQUEST)
