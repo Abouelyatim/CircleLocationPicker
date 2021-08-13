@@ -69,7 +69,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
   @SuppressLint("ClickableViewAccessibility")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_place_picker)
+    setContentView(R.layout.activity_location_picker)
     getIntentData()
 
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
